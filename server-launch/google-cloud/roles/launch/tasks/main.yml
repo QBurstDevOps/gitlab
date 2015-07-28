@@ -1,39 +1,39 @@
 ---
 # tasks file for launch
-# Simple example of creating a new network
-#- local_action:
-#    module: gce_net
-#    name: gitlabnet
-#    ipv4_range: '10.240.16.0/24'
+# Creating a new network
+- local_action:
+    module: gce_net
+    name: gitlabnet
+    ipv4_range: '10.240.16.0/24'
 
-# Simple example of creating a new firewall rule
-#- local_action:
-#    module: gce_net
-#    name: gitlabnet
-#    fwname: all-ssh-web-webproxy
-#    allowed: tcp:22,80,8080
-#    src_tags: ["ssh","web", "proxy"]
+# Creating a new firewall rule
+- local_action:
+    module: gce_net
+    name: gitlabnet
+    fwname: all-ssh-web-webproxy
+    allowed: tcp:22,80,8080
+    src_tags: ["ssh","web", "proxy"]
 
-#- name: Launch instances
-#  gce: 
-#    instance_names: gitlab
-#    machine_type: "{{ machine_type }}"
-#    image: "{{ image }}"
-#    zone: "{{ zone }}"
-#    network: gitlabnet
-#  register: gce
+- name: Launch instances
+  gce: 
+    instance_names: gitlab
+    machine_type: "{{ machine_type }}"
+    image: "{{ image }}"
+    zone: "{{ zone }}"
+    network: gitlabnet
+  register: gce
 
-#- name: Wait for SSH to come up
-#  wait_for: host={{ item.public_ip }} port=22 delay=10 timeout=60
-#  with_items: gce.instance_data
+- name: Wait for SSH to come up
+  wait_for: host={{ item.public_ip }} port=22 delay=10 timeout=60
+  with_items: gce.instance_data
 
-#- name: Add host to groupname
-#  add_host: hostname={{ item.public_ip }} groupname=new_instances
-#  with_items: gce.instance_data
+- name: Add host to groupname
+  add_host: hostname={{ item.public_ip }} groupname=new_instances
+  with_items: gce.instance_data
 
 - local_action:
     module: gce_pd
     instance_name: gitlab
-    size_gb: 10
-    name: pd
+    size_gb: 500
+    name: gitlab_home
     zone: "{{ zone }}"
