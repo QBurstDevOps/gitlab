@@ -1,0 +1,12 @@
+# Script to launch servers
+# Using http://docs.ansible.com/ansible/gce_module.html
+# Requirement on MacOS X: pip install apache-libcloud
+
+- name: Create instance(s)
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  tags:
+     - launchinstance
+  roles:
+     - launch
