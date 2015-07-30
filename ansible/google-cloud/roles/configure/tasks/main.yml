@@ -1,0 +1,4 @@
+---
+# tasks file for configure
+- name: Create a Directory
+  shell: mkdir /opt/developer

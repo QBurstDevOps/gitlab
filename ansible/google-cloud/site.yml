@@ -10,3 +10,10 @@
      - launchinstance
   roles:
      - launch
+
+- name: Manage new instances
+  hosts: new_instances
+  connection: ssh
+  sudo: True
+  roles:
+     - configure
